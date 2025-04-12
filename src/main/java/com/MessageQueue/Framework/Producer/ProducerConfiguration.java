@@ -1,8 +1,9 @@
-package com.MessageQueue.Framework.Config;
+package com.MessageQueue.Framework.Producer;
 
+
+import com.MessageQueue.Framework.Utils.JacksonKafkaSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +21,11 @@ public class ProducerConfiguration {
     private String bootstrapAddress;
 
     @Bean
-    public KafkaTemplate<Integer, String> kafkaTemplate(){
+    public KafkaTemplate<Integer, Object> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 
-    private ProducerFactory<Integer, String> producerFactory(){
+    private ProducerFactory<Integer, Object> producerFactory(){
         return new DefaultKafkaProducerFactory<>(producerConfig());
     }
 
@@ -32,7 +33,7 @@ public class ProducerConfiguration {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JacksonKafkaSerializer.class);
         return props;
     }
 

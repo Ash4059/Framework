@@ -1,4 +1,4 @@
-package com.MessageQueue.Framework.Producer;
+package com.MessageQueue.Framework.Reciever;
 
 import jakarta.annotation.Nullable;
 import org.apache.kafka.clients.producer.ProducerRecord;
