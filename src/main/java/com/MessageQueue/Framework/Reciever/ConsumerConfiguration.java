@@ -5,6 +5,7 @@ import com.MessageQueue.Framework.Utils.JacksonKafkaDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -36,6 +37,7 @@ public class ConsumerConfiguration {
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
+    @Bean
     public ConcurrentKafkaListenerContainerFactory<String, User> kafkaListenerContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<String, User> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();

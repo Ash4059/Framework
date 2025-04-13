@@ -55,7 +55,7 @@ public class SendMessage {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-        SendMessageToKafka("defaultTopic", jsonObject);
+//        SendMessageToKafka("defaultTopic", jsonObject);
     }
 
     public SendMessage(KafkaTemplate<Integer, Object> kafkaTemplate){
