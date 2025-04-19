@@ -9,7 +9,7 @@ public class JacksonKafkaSerializer<T> implements Serializer<T> {
 
     @Override
     public byte[] serialize(String s, T data) {
-        System.out.println("Serializong data for topic " + s);
+        System.out.println("Serializing data for topic " + s);
         try {
             return objectMapper.writeValueAsBytes(data);
         }catch (Exception e){
