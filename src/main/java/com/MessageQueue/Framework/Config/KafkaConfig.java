@@ -1,7 +1,7 @@
 package com.MessageQueue.Framework.Config;
 
+import com.MessageQueue.Framework.Utils.TOPIC_NAME;
 import org.apache.kafka.clients.admin.AdminClientConfig;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,11 +25,11 @@ public class KafkaConfig {
     }
 
     @Bean
-    public NewTopic topic1(){
-        return TopicBuilder.name("defaultTopic")
-                .build();
+    public KafkaAdmin.NewTopics topics(){
+        return new KafkaAdmin.NewTopics(
+                TopicBuilder.name(TOPIC_NAME.REGISTER_USER.getValue()).build(),
+                TopicBuilder.name(TOPIC_NAME.DELETE_USER.getValue()).build(),
+                TopicBuilder.name(TOPIC_NAME.UPDATE_USER.getValue()).build());
     }
-
-
 
 }
