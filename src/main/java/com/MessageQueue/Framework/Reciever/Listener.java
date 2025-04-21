@@ -3,9 +3,11 @@ package com.MessageQueue.Framework.Reciever;
 import jakarta.annotation.Nullable;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.support.LoggingProducerListener;
 import org.springframework.kafka.support.ProducerListener;
 
+@Configuration
 public class Listener<K, V> implements ProducerListener<K, V> {
 
     @Override
