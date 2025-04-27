@@ -2,9 +2,13 @@ package com.MessageQueue.Framework.Services;
 
 import com.MessageQueue.Framework.Model.User;
 import com.MessageQueue.Framework.Repository.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -12,12 +16,15 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
     public void saveUser(User user){
-        userRepository.save(user);
+        this.userRepository.saveAndFlush(user);
     }
 
     public Optional<User> findUserById(Long id) {
@@ -29,18 +36,15 @@ public class UserService {
     }
 
     public boolean deleteUserById(Long id){
-        Optional<User> optionalUser = findUserById(id);
-        if(optionalUser.isPresent()){
-            userRepository.deleteById(id);
+        User user = entityManager.find(User.class, id);
+        if(!Objects.isNull(user)){
+            entityManager.remove(user);
+            return true;
         }
-        return optionalUser.isPresent();
+        return false;
     }
 
-    public boolean updateUser(User user){
-        boolean isDeleted = deleteUserById(user.getId());
-        if(isDeleted){
-            saveUser(user);
-        }
-        return isDeleted;
+    public void updateUser(User user){
+        entityManager.merge(user);
     }
 }

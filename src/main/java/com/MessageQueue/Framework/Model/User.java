@@ -17,13 +17,18 @@ public class User {
 
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String userName;
+
+    @Version
+    private int version;
 
     @Column(nullable = false)
     private String password;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
     private Date dateOfBirth;
 
     @Override
@@ -36,6 +41,14 @@ public class User {
                 ", password='" + password + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 '}';
+    }
+
+    public User(){
+
+    }
+
+    public User(Long id){
+        this.id = id;
     }
 
     public Long getId() {

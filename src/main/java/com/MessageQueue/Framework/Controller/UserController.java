@@ -45,14 +45,14 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("user/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id){
         return new ResponseEntity<>(userService.findUserById(id).get(), HttpStatus.OK);
     }
 
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id){
-        this.kafkaTemplate.send(TOPIC_NAME.DELETE_USER.getValue(), id);
+    public ResponseEntity<String> deleteUserById(@RequestBody User user){
+        this.kafkaTemplate.send(TOPIC_NAME.DELETE_USER.getValue(), user);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 

@@ -24,7 +24,7 @@ public class JacksonKafkaDeserializer<T> implements Deserializer<T> {
 
     @Override
     public T deserialize(String topic, byte[] data) {
-        System.out.println("Deserializing message from topic: " + topic);
+        System.out.println("Deserializing message from topic: " + topic + " targetType is " + this.targetType);
         try {
             return objectMapper.readValue(data, this.targetType);
         }catch (Exception e){
