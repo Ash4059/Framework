@@ -50,7 +50,7 @@ public class UserController {
         return new ResponseEntity<>(userService.findUserById(id).get(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/user")
     public ResponseEntity<String> deleteUserById(@RequestBody User user){
         this.kafkaTemplate.send(TOPIC_NAME.DELETE_USER.getValue(), user);
         return new ResponseEntity<>("", HttpStatus.OK);

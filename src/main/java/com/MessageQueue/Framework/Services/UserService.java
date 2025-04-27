@@ -3,15 +3,16 @@ package com.MessageQueue.Framework.Services;
 import com.MessageQueue.Framework.Model.User;
 import com.MessageQueue.Framework.Repository.UserRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -24,7 +25,7 @@ public class UserService {
     }
 
     public void saveUser(User user){
-        this.userRepository.saveAndFlush(user);
+        this.userRepository.save(user);
     }
 
     public Optional<User> findUserById(Long id) {

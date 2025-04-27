@@ -26,8 +26,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
     private Date dateOfBirth;
 
