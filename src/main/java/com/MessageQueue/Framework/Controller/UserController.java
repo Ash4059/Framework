@@ -56,8 +56,9 @@ public class UserController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
-    @PutMapping("/user")
-    public ResponseEntity<String> updateUserById(@RequestBody User user){
+    @PutMapping("/user/{id}")
+    public ResponseEntity<String> updateUserById(@RequestBody User user, @PathVariable Long id){
+        user.setId(id);
         this.kafkaTemplate.send(TOPIC_NAME.UPDATE_USER.getValue(), user);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
