@@ -48,4 +48,8 @@ public class UserService {
     public void updateUser(User user){
         entityManager.merge(user);
     }
+
+    public List<User> getRecentUsers(){
+        return userRepository.getRecentUsers();
+    }
 }

@@ -2,7 +2,9 @@ package com.MessageQueue.Framework.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -19,6 +21,10 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String userName;
+
+    @UpdateTimestamp
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @Version
     private int version;
@@ -95,5 +101,9 @@ public class User {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
