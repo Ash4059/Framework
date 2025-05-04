@@ -2,6 +2,7 @@ package com.MessageQueue.Framework.Services;
 
 import com.MessageQueue.Framework.Model.User;
 import com.MessageQueue.Framework.Repository.UserRepository;
+import com.MessageQueue.Framework.Utils.TransactionStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;

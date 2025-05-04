@@ -1,7 +1,6 @@
 package com.MessageQueue.Framework.Controller;
 
 import com.MessageQueue.Framework.Model.User;
-import com.MessageQueue.Framework.Services.SendMessage;
 import com.MessageQueue.Framework.Services.UserService;
 
 import java.util.List;
@@ -10,13 +9,7 @@ import com.MessageQueue.Framework.Utils.TOPIC_NAME;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -30,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user){
+    public ResponseEntity<String> registerUser(@RequestBody User user, @RequestHeader("User-Agent") String userAgent){
         try {
             this.kafkaTemplate.send(TOPIC_NAME.REGISTER_USER.getValue(), user);
             return new ResponseEntity<>("User data consumed properly", HttpStatus.OK);
@@ -51,13 +44,14 @@ public class UserController {
     }
 
     @DeleteMapping("/user")
-    public ResponseEntity<String> deleteUserById(@RequestBody User user){
+    public ResponseEntity<String> deleteUserById(@RequestBody User user, @RequestHeader("User-Agent") String userAgent){
         this.kafkaTemplate.send(TOPIC_NAME.DELETE_USER.getValue(), user);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<String> updateUserById(@RequestBody User user, @PathVariable Long id){
+    public ResponseEntity<String> updateUserById(@RequestBody User user, @PathVariable Long id,
+                                                 @RequestHeader("User-Agent") String userAgent){
         user.setId(id);
         this.kafkaTemplate.send(TOPIC_NAME.UPDATE_USER.getValue(), user);
         return new ResponseEntity<>("", HttpStatus.OK);

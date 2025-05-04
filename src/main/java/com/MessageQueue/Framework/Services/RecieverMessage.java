@@ -1,8 +1,12 @@
 package com.MessageQueue.Framework.Services;
 
 import com.MessageQueue.Framework.Model.User;
+import com.MessageQueue.Framework.Utils.TRANSACTION_STATUS;
+import com.MessageQueue.Framework.Utils.TransactionStatus;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class RecieverMessage {
@@ -20,8 +24,10 @@ public class RecieverMessage {
         System.out.println("Consumed message: " + user.toString());
         try {
             this.userService.saveUser(user);
+            TransactionStatus.SetCurrentTransactionStatus(TRANSACTION_STATUS.TRANSACTION_SUCCESSFULL);
         }catch (Exception e){
             System.out.println("Server internal error " + e.getMessage());
+            TransactionStatus.SetCurrentTransactionStatus(TRANSACTION_STATUS.TRANSACTION_UNSUCCESSFULL);
         }
     }
 
@@ -32,8 +38,10 @@ public class RecieverMessage {
         System.out.println("Consumed message: " + user.toString());
         try {
             this.userService.deleteUserById(user.getId());
+            TransactionStatus.SetCurrentTransactionStatus(TRANSACTION_STATUS.TRANSACTION_SUCCESSFULL);
         }catch (Exception e){
             System.out.println("Server internal error" + e.getMessage());
+            TransactionStatus.SetCurrentTransactionStatus(TRANSACTION_STATUS.TRANSACTION_UNSUCCESSFULL);
         }
     }
 
@@ -43,8 +51,10 @@ public class RecieverMessage {
     public void consumeUpdateMessage(User user) {
         try{
             this.userService.updateUser(user);
+            TransactionStatus.SetCurrentTransactionStatus(TRANSACTION_STATUS.TRANSACTION_SUCCESSFULL);
         }catch (Exception e){
             System.out.println("Server internal error" + e.getMessage());
+            TransactionStatus.SetCurrentTransactionStatus(TRANSACTION_STATUS.TRANSACTION_UNSUCCESSFULL);
         }
     }
 
